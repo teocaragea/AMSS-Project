@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:id="@+id/nav_account"
+        android:title="Profilul meu"
+        android:icon="@drawable/ic_profile"/>
+
+    <item
+        android:id="@+id/nav_info"
+        android:title="Informatii"
+        android:icon="@drawable/ic_info"/>
+
+    <item
+        android:id="@+id/nav_location"
+        android:title="Locatie"
+        android:icon="@drawable/ic_location"/>
+    <item
+        android:id="@+id/nav_menu"
+        android:title="Meniu"
+        android:icon="@drawable/ic_menu"/>
+    <item
+        android:id="@+id/nav_istCom"
+        android:title="Istoric Comenzi"
+        android:icon="@drawable/ic_history"/>
+
+    <item
+        android:id="@+id/nav_order"
+        android:title="Comenzi active"
+        android:icon="@drawable/ic_order"/>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Logout"
+        android:icon="@drawable/logout"/>
+
+</menu>
