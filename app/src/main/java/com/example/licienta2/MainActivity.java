@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     static Boolean admin = false;
-    static List<Produs> produse = new ArrayList<Produs>();
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -192,14 +193,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String image = getIntent().getStringExtra("image");
             String cantitate = getIntent().getStringExtra("cantitate");
             String categorie = getIntent().getStringExtra("categorie");
-            if ((ArrayList<Produs>) getIntent().getSerializableExtra("set") != null) {
-                produse = (ArrayList<Produs>) getIntent().getSerializableExtra("set");
-            }
 
             if(nume != null){
                 Produs p = new Produs(nume,pret,cantitate,image,categorie);
                 Boolean isProdus = true;
-                for(Produs produs : produse){
+                for(Produs produs : ProdusBase.get().getProduse()){
                     if(p.getNume().equals(produs.getNume())){
                         isProdus = false;
                         produs.setQt(produs.getQt() + Integer.parseInt(qt));
@@ -207,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                     if(isProdus){
                         p.setQt(Integer.parseInt(qt));
-                        produse.add(p);
+                        ProdusBase.get().addProdus(p);
                     }
             }
         }catch (Exception e){
@@ -405,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 try {
                     Intent intent= new Intent(getApplicationContext(),Cos.class);
-                    intent.putExtra("set",(Serializable)produse);
+                    intent.putExtra("set",(Serializable)ProdusBase.get().getProduse());
                     startActivity(intent);
                 }
                 catch (Exception e){

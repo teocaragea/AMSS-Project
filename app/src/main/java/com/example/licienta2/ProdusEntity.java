@@ -65,12 +65,9 @@ public class ProdusEntity extends AppCompatActivity {
                 public void onClick(View v) {
                     try{
                         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                        intent.putExtra("qt",k.toString());
-                        intent.putExtra("nume",nume);
-                        intent.putExtra("pret",pret);
-                        intent.putExtra("image",image);
-                        intent.putExtra("cantitate",cantitate);
-                        intent.putExtra("categorie", categorie);
+                        Produs p = new Produs(nume,pret,cantitate,image,categorie);
+                        p.setQt(k);
+                        ProdusBase.get().addProdus(p);
                         startActivity(intent);
                     }catch (Exception e){
                         Toast.makeText(ProdusEntity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

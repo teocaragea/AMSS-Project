@@ -56,7 +56,6 @@ public class Cos extends AppCompatActivity {
     Button btnTrm, btnCls, timeButton;
     TextView tvTotal;
     DatabaseReference mDatabase, mDatabase2;
-    ArrayList<Produs> list = new ArrayList<Produs>();
     String email;
     Double total = 0.0;
     ArrayAdapter<Produs> adapter;
@@ -84,12 +83,12 @@ public class Cos extends AppCompatActivity {
         btnTrm = findViewById(R.id.btnTrm);
         timeButton = findViewById(R.id.btnTime);
         Intent i = getIntent();
-        list = (ArrayList<Produs>) i.getSerializableExtra("set");
-        adapter = new cosAdapter(this, 0, list);
+       // list = (ArrayList<Produs>) i.getSerializableExtra("set");
+        adapter = new cosAdapter(this, 0, (ArrayList<Produs>)ProdusBase.get().getProduse());
 
         Calendar rightNow = Calendar.getInstance();
         int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-        for (Produs p : list) {
+        for (Produs p : ProdusBase.get().getProduse()) {
             if(currentHour == 15
                     && !p.getCategorie().equals("bauturi")
                     && !p.getCategorie().equals("grup"))
@@ -122,7 +121,6 @@ public class Cos extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("set", (Serializable) list);
                     startActivity(intent);
                 } catch (Exception e) {
                     Toast.makeText(Cos.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -140,7 +138,7 @@ public class Cos extends AppCompatActivity {
                     ora.add(30);
                 }
                 HashMap<String, Integer> order = new HashMap<String, Integer>();
-                for (Produs p : list) {
+                for (Produs p : ProdusBase.get().getProduse()) {
                     if (image.isEmpty()) {
                         image = p.getNume();
                     }
@@ -175,9 +173,8 @@ public class Cos extends AppCompatActivity {
                                             showProgress(false);
                                         }
                                     });
-                                    list.clear();
+                                    ProdusBase.get().setProduse(null);
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    intent.putExtra("set", (Serializable) list);
                                     startActivity(intent);
                                 }else{
                                     btnTrm.setError("Comanda in afara programului");
@@ -217,10 +214,10 @@ public class Cos extends AppCompatActivity {
     }
 
     public void remove(int positon) {
-        list.remove(positon);
+        ProdusBase.get().removeProdus(positon);
         listView.setAdapter(adapter);
         Double total2 = 0.0;
-        for (Produs p : list) {
+        for (Produs p : ProdusBase.get().getProduse()) {
             total2 += Double.valueOf(p.getPret()) * p.getQt();
         }
         tvTotal.setText("Total: " + String.valueOf(total2) + " lei");
